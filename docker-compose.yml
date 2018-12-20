@@ -3,14 +3,15 @@ services :
    nginx:
     build: ./nginx #编译./mysql下的Dockerfile
     ports:
-      - "80:80" # 绑定服务器端口:容器端口
+      - 80:80 # 绑定服务器端口:容器端口
+      - 443:443
     volumes:
       - /data/wwwroot/frontend/saas:/data/wwwroot/frontend/saas
       - /data/wwwroot/frontend/os:/data/wwwroot/frontend/os
       - /data/wwwroot/api:/data/wwwroot/api
     links:
       - "php"
-   php :
+   php:
     build: ./php
     volumes:
       - /data/wwwroot/api:/data/wwwroot/api
