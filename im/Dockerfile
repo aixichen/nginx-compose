@@ -1,5 +1,5 @@
 from php:5.6.38-fpm-alpine
-run mkdir -p /data/wwwroot/api
+run mkdir -p /data/wwwroot/im
 ENV PHPREDIS_VERSION 3.1.3
 ENV PHPSWOOLE_VERSION 1.10.5
 ENV TIMEZONE Asia/Shanghai
@@ -35,8 +35,11 @@ RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$P
     && mv swoole-src-$PHPSWOOLE_VERSION /usr/src/php/ext/swoole \
     && docker-php-ext-install redis \
     && docker-php-ext-install swoole \
-    && docker-php-ext-install bcmath \
     && rm -rf /usr/src/php
 add php.ini /usr/local/etc/php/php.ini
-WORKDIR /data/wwwroot/api
+add restart /data/wwwroot/im/restart
+WORKDIR /data/wwwroot/im
+RUN apk add bash
+RUN chmod +x /data/wwwroot/im/restart
+CMD ["/data/wwwroot/im/restart"]
 user root

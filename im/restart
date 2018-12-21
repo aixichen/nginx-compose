@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+work_dir=$(dirname $(readlink -f "$0"))
+
+# 重启IM进程
+if [ "$(ps aux|grep -e "${work_dir}.*\.php$"|wc -l)" -ne 0 ];then
+    echo -n "停止IM进程..."
+    kill -9 $(ps aux|grep -e "${work_dir}.*\.php$"|grep -v "grep"|awk '{print $2}') > /dev/null 2>&1
+    echo "success"
+fi
+echo -n "启动IM进程..."
+php ${work_dir}/starter.php > /dev/null 2>&1 & # 后台启动im进程
+echo "success"
